@@ -2,7 +2,9 @@ package com.kartiksaini.exoplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -12,14 +14,16 @@ import com.google.android.exoplayer2.util.Util;
 public class MainActivity extends AppCompatActivity {
         PlayerView playerView;
         private SimpleExoPlayer myexoplayer;
-    private boolean playWhenReady = true;
+    private boolean playWhenReady = false;
     private int currentWindow = 0;
     private long playbackPosition = 0;
+    private TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         playerView=findViewById(R.id.video_view);
+        tv=findViewById(R.id.textView2);
     }
 
     @Override
@@ -50,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       initializeplayer();
+        Intent i=getIntent();
+       String m= i.getStringExtra("moviedesc");
+        tv.setText(m);
+        initializeplayer();
+
     }
 }

@@ -1,6 +1,7 @@
 package com.kartiksaini.exoplayer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,16 +78,31 @@ public class movieadapter extends RecyclerView.Adapter<movieadapter.myviewholder
         return i;
     }
 
-    public class myviewholder extends RecyclerView.ViewHolder {
+    public class myviewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
         final ImageView imageView;
         TextView mtext;
         public myviewholder(@NonNull View itemView,Context ctx) {
             super(itemView);
             imageView=itemView.findViewById(R.id.imageview);
             mtext=itemView.findViewById(R.id.textView);
+            imageView.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            String desc="no description";
+            int position=getLayoutPosition();
+            try {
+
+                desc = marray.getJSONObject(position).getString("overview");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Intent i=new Intent(ctx,MainActivity.class);
+            i.putExtra("moviedesc",desc);
+            ctx.startActivity(i);
+        }
     }
 
 
