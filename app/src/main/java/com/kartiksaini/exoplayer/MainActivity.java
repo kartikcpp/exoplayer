@@ -22,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
         playerView=findViewById(R.id.video_view);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
     private void initializeplayer(){
         myexoplayer=new SimpleExoPlayer.Builder(this).build();
         playerView.setPlayer(myexoplayer);
