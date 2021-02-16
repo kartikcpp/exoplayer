@@ -1,6 +1,9 @@
 package com.kartiksaini.exoplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -22,12 +25,18 @@ public class MainActivity2 extends AppCompatActivity {
     TextView mytextview;
     RequestQueue queue ;
     private ProgressBar mprogressbar;
+
+    private RecyclerView mRecyclerView;
+    private movieadapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         mprogressbar=findViewById(R.id.progressbar);
         queue=Volley.newRequestQueue(this);
+
+
+
     }
 
     @Override
@@ -40,12 +49,21 @@ public class MainActivity2 extends AppCompatActivity {
 
     private void mynetworkrequest() {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, url, null, +new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
                         mprogressbar.setVisibility(View.GONE);
                         myjsonobject=response;
+
+                        mRecyclerView = findViewById(R.id.recyclerview);
+// Create an adapter and supply the data to be displayed.
+                        mAdapter = new movieadapter(MainActivity2.this, myjsonobject);
+// Connect the adapter with the RecyclerView.
+                        mRecyclerView.setAdapter(mAdapter);
+// Give the RecyclerView a default layout manager.
+                        GridLayoutManager manager = new GridLayoutManager(MainActivity2.this, 2, GridLayoutManager.VERTICAL, false);
+                        mRecyclerView.setLayoutManager(manager);
                     }
                 }, new Response.ErrorListener() {
 

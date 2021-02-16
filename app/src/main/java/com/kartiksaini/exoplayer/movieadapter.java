@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,18 +47,22 @@ public class movieadapter extends RecyclerView.Adapter<movieadapter.myviewholder
 
     @Override
     public void onBindViewHolder(@NonNull myviewholder holder, int position) {
+        String imagepath="https://image.tmdb.org/t/p/w500";
+        String name="";
         try {
-            marray.get(position);
+           imagepath+= marray.getJSONObject(position).getString("poster_path");
+           name=marray.getJSONObject(position).getString("title");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         Glide
                 .with(ctx)
-                .load(url)
+                .load(imagepath)
+                .placeholder(R.drawable.images)
                 .centerCrop()
-                .placeholder(R.drawable.loading_spinner)
                 .into(holder.imageView);
+        holder.mtext.setText(name);
 
     }
 
@@ -74,9 +79,11 @@ public class movieadapter extends RecyclerView.Adapter<movieadapter.myviewholder
 
     public class myviewholder extends RecyclerView.ViewHolder {
         final ImageView imageView;
+        TextView mtext;
         public myviewholder(@NonNull View itemView,Context ctx) {
             super(itemView);
             imageView=itemView.findViewById(R.id.imageview);
+            mtext=itemView.findViewById(R.id.textView);
         }
 
 
